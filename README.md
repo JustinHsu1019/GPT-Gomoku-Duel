@@ -27,3 +27,5 @@
 5. 模型升級: 未來我們計劃引入經過五子棋知識微調的LLama-2模型，以進一步提升遊戲體驗。
 
 UI 介面:
+
+![git_img](https://github.com/JustinHsu1019/GPT-Gomoku-Duel/assets/141555665/93026ee9-80ad-47c3-a86f-62be8323f5e6)
