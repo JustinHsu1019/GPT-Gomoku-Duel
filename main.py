@@ -45,7 +45,7 @@ def disable_all_buttons():
             board_buttons[i][j].config(state=tk.DISABLED)
 
 root = tk.Tk()
-root.title("Chess Game")
+root.title("Gomoku GPT")
 
 status_label = tk.Label(root, text="Turn: Player")
 status_label.pack(pady=10)
