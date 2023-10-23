@@ -56,4 +56,5 @@ prompt = f"""五子棋:
 
 UI 介面:
 
-![git_img](https://github.com/JustinHsu1019/GPT-Gomoku-Duel/assets/141555665/93026ee9-80ad-47c3-a86f-62be8323f5e6)
+![GomokuGPT](https://github.com/JustinHsu1019/GPT-Gomoku-Duel/assets/141555665/528eec7e-7ff9-4cb3-b040-58acf5eccb74)
+
