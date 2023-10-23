@@ -1,8 +1,5 @@
-import random
-
-### LLM ###
-from langchain.chat_models import AzureChatOpenAI
-from openai.error import RateLimitError
+### For LLM ###
+from langchain.chat_models import AzureChatOpenAI, ChatOpenAI
 from langchain.schema import HumanMessage
 
 ### Logger ###
@@ -15,9 +12,9 @@ import configparser
 config = configparser.ConfigParser()
 config.read('CSconfig_chess.ini')
 
-### Call OpenAI LLM Model ###
-# 後續可更換成 LLama2 模型並針對五子棋相關知識進行 FineTune
+### 呼叫 GPT 模型 (本次使用模型為 GPT-3.5-16k) ###
 def do_openai(messages):
+    """ Azure OpenAI Key """
     AzureOpenAIconfig = config['Open AI Default']['open_ai_section_name']
     openAI = AzureChatOpenAI(
         openai_api_base=config[AzureOpenAIconfig]['OPENAI_API_BASE'],
@@ -28,18 +25,23 @@ def do_openai(messages):
         temperature=0.3,
         max_tokens=4096
     )
+    """ OpenAI Key
+    openAI = ChatOpenAI(
+        model_name=deployment_name_for_openai,
+        openai_api_key=openai_api_key_for_openai,
+        temperature=0.3,
+        max_tokens=100
+    )
+    """
     try:
         res = openAI(messages)
         return res.content
-    except RateLimitError:
-        print("get rate limit, run again")
-        return do_openai(messages)
     except Exception as e:
-        print(f"get error: {e}")
-        logger.error("詢問GPT發生了一個例外情況", exc_info=True)
-        return "系統發生錯誤，請通知系統管理員!"
+        print(f"哭哭，出現錯誤，錯誤內容: {e}")
+        logger.error("哭哭，詢問GPT出現錯誤", exc_info=True)
+        return do_openai(messages)
 
-### Check Winner ###
+### 檢查是否有玩家連成五子 ###
 def check_winner(board, BOARD_SIZE):
     for row in range(BOARD_SIZE):
         for col in range(BOARD_SIZE - 4):
@@ -75,27 +77,45 @@ def check_winner(board, BOARD_SIZE):
                 return board[row][col]
     return None
 
+### 整理當前棋局狀況 ###
+"""
+範例輸出:
+ 行5, 列3: ⚫
+ 行4, 列4: ⭕
+ 行4, 列5: ⭕
+"""
+def print_board(board, BOARD_SIZE):
+    output = []
+    for i in range(BOARD_SIZE):
+        for j in range(BOARD_SIZE):
+            if board[i][j] != " ":
+                output.append(f"行{i}, 列{j}: {board[i][j]}")
+    return "\n".join(output)
+
 ### 在棋盤上下一子 ###
-def play_chess(board, board_size, mark, round_num):
-    # 第一步
-    if round_num == 0:
-        board[board_size // 2][board_size // 2] = mark
-        return board, board_size // 2, board_size // 2
-    # 第二步
-    elif round_num == 1:
-        while True:
-            row = random.randint(board_size // 2 - 1, board_size // 2 + 1)
-            col = random.randint(board_size // 2 - 1, board_size // 2 + 1)
-            if (row >= 0 and row < board_size and col >= 0 and col < board_size and board[row][col] == " "):
-                break
-    # 從第三步開始，之後的每一步都讓 GPT-3.5 來下
-    else:
-        while True:
-            board_str = print_board(board, board_size)
-            prompt = f"""你是一位五子棋大師，請根據當前棋局及你的角色，下出最優的一步解 (以連成5個{mark}為一直線為追求)(只需要給我一步即可，無論任何情況，就是給我一個答案)
-*請嚴格且萬分的注意: 請下在空的位置上，在你選擇位置時請再三檢查，不可以下在有子的位置(無論該位置是O或X)*
+# Prompt 仍在調整中，若GPT-3.5仍無法實現指令遵從，則進行 FineTune or 更換成 LLama-2 進行 增量預訓練+FineTune
+def play_chess_for_ai(board, board_size, mark):
+    while True:
+        board_str = print_board(board, board_size)
+        prompt = f"""五子棋:
+遊戲規則：
+兩名玩家輪流在棋盤的空白位置上放置自己的棋子。
+第一個玩家使用黑子，第二個玩家使用白子（或相反，根據約定）。
+目標是在棋盤上形成一條由五個連續的同色棋子所組成的直線，這條線可以是水平、垂直或斜線。
+第一個成功連接五個棋子的玩家獲勝。
+策略：
+五子棋需要玩家進行策略性思考，以預測對方的下一步，同時防止對方連接五子並嘗試自己連接。進階玩家會有各種開局策略和模式，以及識別危險位置並及時封堵的能力。
+
+你是一位五子棋大師，請根據[當前棋局]及[你的角色]，下出最優的一步解
+*如果你看到對方已經有三個以上的子連成一線，請立刻阻止他繼續連成四子或五子*
+--> 範例：假設對手是O, 棋盤: 行5, 列3: O, 行5, 列4: O, 行5, 列5: O，這時候你就要下在 行5, 列6 或是 行5, 列2 來阻止他
+*以連成5個{mark}為一直線為追求*
+--> 範例：假設你是O, 行5, 列2: O, 行5, 列3: O, 行5, 列4: O，行5, 列5: O，這時候你就要下在 行5, 列6 或是 行5, 列1 來連成五子以獲得勝利
+*只需要給我一步即可，無論任何情況，就是給我一個答案*
+--> 範例：行4, 列3
 [當前棋局]:
 {board_str}
+
 [你的角色]:
 {mark}
 
@@ -104,33 +124,19 @@ def play_chess(board, board_size, mark, round_num):
 
 請指示下一步的行和列:
 """
-            res = do_openai([HumanMessage(content=prompt)])
-            try:
-                cut_li = res.split(",")
-                row = cut_li[0].replace(" ", "").replace("行", "")
-                col = cut_li[-1].replace(" ", "").replace("列", "")
-                row = int(row)
-                col = int(col)
-            except Exception as e:
-                logger.error("切分GPT回復發生了一個例外情況", exc_info=True)
-                row = -1
-                col = -1
-            
+        res = do_openai([HumanMessage(content=prompt)])
+        try:
+            cut_li = res.split(",")
+            row = cut_li[0].replace(" ", "").replace("行", "")
+            col = cut_li[-1].replace(" ", "").replace("列", "")
+            row = int(row)
+            col = int(col)
+
             if (row >= 0 and row < board_size and col >= 0 and col < board_size and board[row][col] == " "):
                 break
-    
+        except:
+            logger.error("哭哭，切分GPT回覆發生了錯誤", exc_info=True)
+            continue
+
     board[row][col] = mark
     return board, row, col
-
-### 輸出當前棋盤 ###
-def print_board(board, BOARD_SIZE):
-    outp = "-" * (2 * BOARD_SIZE + 1) + "\n"
-    for row in range(BOARD_SIZE):
-        outp += "|"
-        for col in range(BOARD_SIZE):
-            outp += board[row][col]
-            outp += "|"
-        outp += "\n"
-    outp += "-" * (2 * BOARD_SIZE + 1) + "\n"
-
-    return outp

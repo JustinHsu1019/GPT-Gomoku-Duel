@@ -1,61 +1,65 @@
+### Tkinter 介面 ###
+import tkinter as tk
+
 ### Controllers ###
-from controllers import check_winner, play_chess, print_board
+from controllers import check_winner, play_chess_for_ai
 
-### Logger ###
-import logging.config
-logging.config.fileConfig('logging_config_chess.ini')
-logger = logging.getLogger('CsLogger')
-
-### Setting ###
+### UI 設定 ###
 BOARD_SIZE = 19
-FIRST_PLAYER_CHAR = "X"
-SECOND_PLAYER_CHAR = "O"
-first_player_last_row = 0
-first_player_last_col = 0
-second_player_last_row = 0
-second_player_last_col = 0
+FIRST_PLAYER_CHAR = "\u26AB"
+SECOND_PLAYER_CHAR = "\u2B55"
 round_num = 0
-board = []
-for i in range(BOARD_SIZE):
-    board.append([])
-    for j in range(BOARD_SIZE):
-        board[i].append(" ")
+board = [[" "] * BOARD_SIZE for _ in range(BOARD_SIZE)]
 
-### Main ###
-def main():
-    global board, round_num, first_player_last_row, first_player_last_col, second_player_last_row, second_player_last_col
-    logger.info("開始遊戲")
-    print(print_board(board, BOARD_SIZE))
-    while True:
-        logger.info("又一輪")
-
+def on_cell_click(row, col):
+    global board, round_num
+    if board[row][col] == " ":
         if round_num % 2 == 0:
             player_char = FIRST_PLAYER_CHAR
-            last_row = first_player_last_row
-            last_col = first_player_last_col
-        else:
-            player_char = SECOND_PLAYER_CHAR
-            last_row = second_player_last_row
-            last_col = second_player_last_col
+            board[row][col] = player_char
+            board_buttons[row][col].config(text=player_char, state=tk.DISABLED)
+            round_num += 1
 
-        board, last_row, last_col = play_chess(board, BOARD_SIZE, player_char, round_num)
+            winner = check_winner(board, BOARD_SIZE)
+            if winner:
+                status_label.config(text=f"Winner is {winner}!")
+                disable_all_buttons()
+                return
 
-        if player_char == FIRST_PLAYER_CHAR:
-            first_player_last_row = last_row
-            first_player_last_col = last_col
-        else:
-            second_player_last_row = last_row
-            second_player_last_col = last_col
+            status_label.config(text="Turn: GPT")
+            board, ai_row, ai_col = play_chess_for_ai(board, BOARD_SIZE, SECOND_PLAYER_CHAR)
+            board_buttons[ai_row][ai_col].config(text=SECOND_PLAYER_CHAR, state=tk.DISABLED)
+            round_num += 1
 
-        round_num += 1
+            winner = check_winner(board, BOARD_SIZE)
+            if winner:
+                status_label.config(text=f"Winner is {winner}!")
+                disable_all_buttons()
+                return
 
-        print(print_board(board, BOARD_SIZE))
-        
-        if check_winner(board, BOARD_SIZE) != None:
-            break
-        
-    logger.info("遊戲結束")
-    print(f"Player {check_winner(board, BOARD_SIZE)} is the winner!")
+            status_label.config(text="Turn: Player")
 
-if __name__ == '__main__':
-    main()
+def disable_all_buttons():
+    for i in range(BOARD_SIZE):
+        for j in range(BOARD_SIZE):
+            board_buttons[i][j].config(state=tk.DISABLED)
+
+root = tk.Tk()
+root.title("Chess Game")
+
+status_label = tk.Label(root, text="Turn: Player")
+status_label.pack(pady=10)
+
+board_frame = tk.Frame(root)
+board_frame.pack(pady=10)
+
+board_buttons = []
+for i in range(BOARD_SIZE):
+    row_buttons = []
+    for j in range(BOARD_SIZE):
+        btn = tk.Button(board_frame, text="", width=2, height=1, command=lambda i=i, j=j: on_cell_click(i, j))
+        btn.grid(row=i, column=j, padx=1, pady=1)
+        row_buttons.append(btn)
+    board_buttons.append(row_buttons)
+
+root.mainloop()
