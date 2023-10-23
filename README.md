@@ -56,7 +56,7 @@ prompt = f"""五子棋:
 
 程式導覽:
 
-[![程式導覽](https://img.youtube.com/vi/CNjWbQX38EE/0.jpg)](https://www.youtube.com/watch?v=CNjWbQX38EE)
+[![程式導覽](https://img.youtube.com/vi/CNjWbQX38EE/0.jpg)](https://www.youtube.com/embed/CNjWbQX38EE)
 
 UI 介面:
 
