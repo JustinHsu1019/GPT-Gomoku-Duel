@@ -54,6 +54,10 @@ prompt = f"""五子棋:
 3. 保存和加載: 允許玩家在任何時候保存遊戲進度並在稍後加載。
 4. 模型升級: 未來我們計劃引入經過五子棋知識微調的LLama-2模型，以進一步提升遊戲體驗。
 
+程式導覽:
+
+[![程式導覽](https://img.youtube.com/vi/CNjWbQX38EE/0.jpg)](https://www.youtube.com/watch?v=CNjWbQX38EE)
+
 UI 介面:
 
 ![GomokuGPT](https://github.com/JustinHsu1019/GPT-Gomoku-Duel/assets/141555665/528eec7e-7ff9-4cb3-b040-58acf5eccb74)
