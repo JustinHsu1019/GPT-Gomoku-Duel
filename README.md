@@ -1,25 +1,25 @@
-# GPT-Gomoku-Duel - 智能五子棋對弈程式
-## 介紹: 
-這是一款五子棋遊戲，特色是讓GPT模型進行對弈。玩家可以與OpenAI模型進行對弈，體驗由深度學習驅動的五子棋遊戲。
+# GPT-Gomoku-Duel - Intelligent Gomoku Duel Program
+## Introduction: 
+This is a Gomoku game, with the unique feature of allowing players to duel against the GPT model. Players can compete against the OpenAI model and experience a Gomoku game powered by deep learning.
 
-## 主要功能:
-1. 玩家對OpenAI模型對弈: 玩家和OpenAI模型輪流進行五子棋的對弈。
-2. 棋盤顯示: 清晰地展示當前的棋盤狀態。
-3. 贏家判定: 一旦有玩家連成五子，程式會自動判定該玩家為贏家。
+## Key Features:
+1. Player vs. OpenAI Model Duel: Players and the OpenAI model take turns in the Gomoku duel.
+2. Chessboard Display: Clearly displays the current state of the chessboard.
+3. Winner Determination: Once a player achieves five in a row, the program automatically declares that player as the winner.
 
-## 如何使用:
-1. 安裝所需套件: 執行 `pip install -r requirements.txt` 以安裝所有必要的Python套件。
-2. 設定: 確保你已設定CSconfig_chess.ini中的API鑰匙。
-3. 啟動遊戲: 執行main.py以開始遊戲。
-4. 遊戲進行: 玩家和OpenAI模型輪流下棋，直到有一方連成五子。
-5. 遊戲結束: 當有玩家連成五子時，遊戲會自動結束。
+## How to Use:
+1. Install Required Packages: Run `pip install -r requirements.txt` to install all necessary Python packages.
+2. Configuration: Ensure you have set the API key in CSconfig_chess.ini.
+3. Start the Game: Execute main.py to begin the game.
+4. Gameplay: Players and the OpenAI model take turns making moves until one side achieves five in a row.
+5. Game End: The game automatically ends when a player achieves five in a row.
 
-## 技術細節:
-1. OpenAI模型互動: 利用AzureChatOpenAI與OpenAI模型進行交互，取得模型建議的下一步。
-2. 贏家判定: 透過簡單的循環檢查橫、直、斜線連成五子的情況。
-3. 棋盤繪製: 使用Tkinter進行棋盤的繪製和更新。
+## Technical Details:
+1. Interaction with OpenAI Model: Uses AzureChatOpenAI to interact with the OpenAI model, obtaining the model's recommended next move.
+2. Winner Determination: Uses simple loops to check for five in a row horizontally, vertically, and diagonally.
+3. Chessboard Drawing: Uses Tkinter for chessboard drawing and updates.
 
-## 提示詞:
+## Prompt:
 ```python
 prompt = f"""五子棋:
 遊戲規則：
@@ -49,17 +49,16 @@ prompt = f"""五子棋:
 請指示下一步的行和列:"""
 ```
 
-## 待完善之項目:
-1. 多語言支持: 增加其他語言的支援，如英語、日語等。
-2. 自訂遊戲設定: 讓玩家可以選擇棋盤大小、遊戲難度等。
-3. 保存和加載: 允許玩家在任何時候保存遊戲進度並在稍後加載。
-4. 模型升級: 未來我們計劃引入經過五子棋知識微調的LLama-2模型，以進一步提升遊戲體驗。
+## Areas for Improvement:
+1. Multilingual Support: Add support for other languages, such as English, Japanese, etc.
+2. Custom Game Settings: Allow players to choose chessboard size, game difficulty, etc.
+3. Save and Load: Allow players to save game progress at any time and load it later.
+4. Model Upgrade: In the future, we plan to introduce the LLama-2 model, fine-tuned with Gomoku knowledge, to further enhance the gaming experience.
 
-## 程式導覽:
+## Program Tour:
 
-[![程式導覽](https://img.youtube.com/vi/CNjWbQX38EE/0.jpg)](https://www.youtube.com/embed/CNjWbQX38EE)
+[![Program Tour](https://img.youtube.com/vi/CNjWbQX38EE/0.jpg)](https://www.youtube.com/embed/CNjWbQX38EE)
 
-## UI 介面:
+## UI Interface:
 
 ![GomokuGPT](https://github.com/JustinHsu1019/GPT-Gomoku-Duel/assets/141555665/528eec7e-7ff9-4cb3-b040-58acf5eccb74)
-
