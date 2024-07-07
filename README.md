@@ -1,9 +1,16 @@
-# GPT-Gomoku-Duel - Intelligent Gomoku Duel Program
+# LLM-Gomoku-Duel - Intelligent Gomoku Duel Program
 ## Introduction: 
-This is a Gomoku game, with the unique feature of allowing players to duel against the GPT model. Players can compete against the OpenAI model and experience a Gomoku game powered by deep learning.
+This is a Gomoku game, with the unique feature of allowing players to duel against the LLM model. Players can compete against the LLM model and experience a Gomoku game powered by deep learning.
+
+## Areas for Improvement:
+1. Prepare for fine-tuning, starting with data preparation, using the original GPT-4o model.
+2. Introduce the LLama-2 model, performing continual pretraining with Gomoku knowledge, followed by fine-tuning, to enhance the gaming experience.
+3. Enhance the LLM's ability to play Gomoku using Retrieval-Augmented Generation (RAG). Ensure that various board configurations are recorded accurately for precise retrieval.
+4. Implement custom game settings that allow players to choose the chessboard size, game difficulty, and other preferences.
+5. Enable save and load functionality, allowing players to save their game progress at any time and load it later.
 
 ## Key Features:
-1. Player vs. OpenAI Model Duel: Players and the OpenAI model take turns in the Gomoku duel.
+1. Player vs. LLM Model Duel: Players and the LLM model take turns in the Gomoku duel.
 2. Chessboard Display: Clearly displays the current state of the chessboard.
 3. Winner Determination: Once a player achieves five in a row, the program automatically declares that player as the winner.
 
@@ -11,11 +18,11 @@ This is a Gomoku game, with the unique feature of allowing players to duel again
 1. Install Required Packages: Run `pip install -r requirements.txt` to install all necessary Python packages.
 2. Configuration: Ensure you have set the API key in CSconfig_chess.ini.
 3. Start the Game: Execute main.py to begin the game.
-4. Gameplay: Players and the OpenAI model take turns making moves until one side achieves five in a row.
+4. Gameplay: Players and the LLM model take turns making moves until one side achieves five in a row.
 5. Game End: The game automatically ends when a player achieves five in a row.
 
 ## Technical Details:
-1. Interaction with OpenAI Model: Uses AzureChatOpenAI to interact with the OpenAI model, obtaining the model's recommended next move.
+1. Interaction with LLM Model: Uses AzureChatOpenAI to interact with the LLM model, obtaining the model's recommended next move.
 2. Winner Determination: Uses simple loops to check for five in a row horizontally, vertically, and diagonally.
 3. Chessboard Drawing: Uses Tkinter for chessboard drawing and updates.
 
@@ -49,19 +56,9 @@ prompt = f"""五子棋:
 請指示下一步的行和列:"""
 ```
 
-## Areas for Improvement:
-1. Multilingual Support: Add support for other languages, such as English, Japanese, etc.
-2. Custom Game Settings: Allow players to choose chessboard size, game difficulty, etc.
-3. Save and Load: Allow players to save game progress at any time and load it later.
-4. Model Upgrade: In the future, we plan to introduce the LLama-2 model, fine-tuned with Gomoku knowledge, to further enhance the gaming experience.
-
 ## Program Tour:
 
 [![Program Tour](https://img.youtube.com/vi/CNjWbQX38EE/0.jpg)](https://www.youtube.com/embed/CNjWbQX38EE)
-
-## UI Interface:
-
-![GomokuGPT](https://github.com/JustinHsu1019/GPT-Gomoku-Duel/assets/141555665/528eec7e-7ff9-4cb3-b040-58acf5eccb74)
 
 ## License
 This repository is licensed under the [MIT License](https://github.com/JustinHsu1019/GPT-Gomoku-Duel/blob/main/LICENSE).
