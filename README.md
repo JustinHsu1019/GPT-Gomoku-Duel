@@ -5,7 +5,7 @@ This is a Gomoku game, with the unique feature of allowing players to duel again
 ## Areas for Improvement:
 1. Prepare for fine-tuning, starting with data preparation, using the original GPT-4o model.
 - Dataset: [https://gomocup.org/results](https://gomocup.org/results/)
-2. Introduce the LLama-2 model, performing continual pretraining with Gomoku knowledge, followed by fine-tuning, to enhance the gaming experience.
+2. Introduce the LLama-3 model, performing continual pretraining with Gomoku knowledge, followed by fine-tuning and RLHF to enhance the gaming experience.
 3. Enhance the LLM's ability to play Gomoku using Retrieval-Augmented Generation (RAG). Ensure that various board configurations are recorded accurately for precise retrieval.
 4. Implement custom game settings that allow players to choose the chessboard size, game difficulty, and other preferences.
 5. Enable save and load functionality, allowing players to save their game progress at any time and load it later.
