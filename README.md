@@ -3,12 +3,13 @@
 This is a Gomoku game, with the unique feature of allowing players to duel against the LLM model. Players can compete against the LLM model and experience a Gomoku game powered by deep learning.
 
 ## Areas for Improvement:
+1. Modify the architecture: change the backend to use WebSocket with Python, and update the frontend to be presented as a web interface using a JavaScript library, such as WGo.js, for the game of Gomoku. Additionally, incorporate a variety of essential features commonly found in web-based game boards.
+1. Implement custom game settings that allow players to choose the chessboard size, game difficulty, and other preferences.
+1. Enable save and load functionality (.sgf file save and load, Cache), allowing players to save their game progress at any time and load it later.
 1. Prepare for fine-tuning, starting with data preparation, using the original GPT-4o model.
 - Dataset: [https://gomocup.org/results](https://gomocup.org/results/)
-2. Introduce the LLama-3 model, performing continual pretraining with Gomoku knowledge, followed by fine-tuning and RLHF to enhance the gaming experience.
-3. Enhance the LLM's ability to play Gomoku using Retrieval-Augmented Generation (RAG). Ensure that various board configurations are recorded accurately for precise retrieval.
-4. Implement custom game settings that allow players to choose the chessboard size, game difficulty, and other preferences.
-5. Enable save and load functionality, allowing players to save their game progress at any time and load it later.
+5. Introduce the LLama-3 model, performing continual pretraining with Gomoku knowledge, followed by fine-tuning and RLHF to enhance the gaming experience.
+5. Enhance the LLM's ability to play Gomoku using Retrieval-Augmented Generation (RAG). Ensure that various board configurations are recorded accurately for precise retrieval.
 
 ## Key Features:
 1. Player vs. LLM Model Duel: Players and the LLM model take turns in the Gomoku duel.
