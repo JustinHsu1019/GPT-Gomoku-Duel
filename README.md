@@ -3,7 +3,7 @@
 This is a Gomoku game, with the unique feature of allowing players to duel against the LLM model. Players can compete against the LLM model and experience a Gomoku game powered by deep learning.
 
 ## Areas for Improvement:
-1. Modify the architecture: change the backend to use WebSocket with Python, and update the frontend to be presented as a web interface using a JavaScript library, such as WGo.js, for the game of Gomoku. Additionally, incorporate a variety of essential features commonly found in web-based game boards.
+1. Modify the architecture: change the backend to use WebSocket with Python, and update the frontend to be presented as a web interface using a JavaScript library, such as [WGo.js](https://github.com/waltheri/wgo.js), for the game of Gomoku. Additionally, incorporate a variety of essential features commonly found in web-based game boards.
 1. Implement custom game settings that allow players to choose the chessboard size, game difficulty, and other preferences.
 1. Enable save and load functionality (.sgf file save and load, Cache), allowing players to save their game progress at any time and load it later.
 1. Prepare for fine-tuning, starting with data preparation, using the original GPT-4o model.
